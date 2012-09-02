@@ -1,0 +1,11 @@
+AddType text/cache-manifest .manifest  
+
+<FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf|ttf|woff|eot|svg|html|manifest)$">
+Header set Cache-Control "public"
+Header set Expires "Thu, 15 Apr 2020 20:00:00 GMT"
+</FilesMatch>
+
+<Files cache.manifest>
+	ExpiresActive On
+	ExpiresDefault "access"
+</Files>
