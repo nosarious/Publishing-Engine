@@ -28,7 +28,7 @@ This collection uses the html5 boilerplate with some modifications for use.
 A Typical Article
 =================
 This document consists of several articles which have classes to identify certain characteristics. You may not want every single page in your document to have a button in the table of contents, for instance. Most magazines only use the first page of an article for the table of contents. In this project the "descriptor" class identifies the title and potential subtitle which will show up on the contents button. This is one of the first things placed within the structure of an article.
-The "backdrop" class contains the information for the image which will be used within the page. The <img> itself gets the classes for placement on the page, such as <img src="photos/014.jpg" class="leftImage bottomImage"> If you do not identify an image, whatever background color or texture has been identified in the css file will be used instead.
+The "backdrop" class contains the information for the image which will be used within the page. The '<img>' tag itself gets the classes for placement on the page, such as "<img src='photos/014.jpg' class='leftImage bottomImage'>" If you do not identify an image, whatever background color or texture has been identified in the css file will be used instead.
 
 resizer.js
 ==========
