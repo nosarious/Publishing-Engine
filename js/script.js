@@ -105,6 +105,8 @@
     this activated the image backdrop resizing routine. 
 */
 
+  var contentSet = true; //used in resizer
+
   jQuery.event.add(window, "orientationchange", updateOrientation);
   jQuery.event.add(window, "load", updateOrientation);
   jQuery.event.add(window, "resize", updateOrientation);
