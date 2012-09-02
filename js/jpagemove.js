@@ -1,10 +1,11 @@
 /*
-* page direction and content button plugin
+* Page movement and content button plugin
 *
-* Gerry Straathof nosemonger@gmail.com
+* Part of the Movement for Publication Engine
+*
+* Gerry Straathof 2012 nosemonger@gmail.com
 *
 */
-//	jQuery.fn.jPageMove = function () {
 
 function jPageMove(){
 

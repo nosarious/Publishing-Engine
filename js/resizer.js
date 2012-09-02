@@ -1,9 +1,15 @@
 
-//    
-//  resize several widths and heights for elements
-//
+/* 
+*   Background image resizing and placement
+*
+*   Part of the Movement for Publication framework
+*
+*   Gerry Straathof 2012 nosemonger@gmail.com
+*   
+*/
+
 function updateOrientation(){ //actions to take when orientation is changed.
-"use strict";
+
     // give the height of the viewport to the various divs used
     // exception code is for the different browsers used.
     

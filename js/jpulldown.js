@@ -1,7 +1,10 @@
-
-//   ***************************************** 
-//  pull down menu controls
-//	******************************************
+/*   
+* 	Pull down control for accessing table of contents
+*	Part of the Movement for Publication framework
+*
+* 	Gerry Straathof 2012 nosemonger@gmail.com
+*	
+*/
 (function($){
 	"use strict";
 	$.fn.jPullDown = function () {

@@ -1,17 +1,18 @@
-
-/* Scrolling and Sliding/Pushing
- *
- *          Gerry Straathof nosemonger@gmail.com
- */
+/* 
+*	Page Movement and Scrolling PLugin
+*
+*	Part of the Movement for Publication framework
+*
+* 	Gerry Straathof 2012 nosemonger@gmail.com
+*	
+* 	Modified jscrolltouch plugin by Damien Rottemberg
+*/
 (function($){
  "use strict";
 
  	
-	 $.fn.jScrollTouch = function (slideOn,scrollOn, useSlide) {
-	       /*
-				  var   maxPage = $('.article-wrapper').length,
-				        animTime = window.animTime;
-				        */
+	 $.fn.jTouchMove = function (slideOn,scrollOn, useSlide) {
+
 
 		        // basic movement structure
 		function slideStart (previous,next,sWidth,sWX){

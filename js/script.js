@@ -1,5 +1,14 @@
-$('#spinner').css('top',$(document).height()/2-100).css('left',$(document).width()/2-100);			  
-			
+
+/* 
+*   Main system to control the published document
+*
+*   Part of the Movement for Publication framework
+*
+*   Gerry Straathof 2012 nosemonger@gmail.com
+*   
+*/
+
+  $('#spinner').css('top',$(document).height()/2-100).css('left',$(document).width()/2-100);			  
 			var opts = {
 				lines: 12, // The number of lines to draw
 				length: 30, // The length of each line
@@ -14,96 +23,102 @@ $('#spinner').css('top',$(document).height()/2-100).css('left',$(document).width
 			
 			var spinner = new Spinner(opts).spin(target);
 
-/* Author: Gerry Straathof
-   This is a number of scripts written for work with the 
-   Publishing Engine
+
+/* 
+    this is supposed to speed up touch controls. 
+    I am not sure if it works
+*/
+    FastButton = function(element, handler) {
+      this.element = element;
+      this.handler = handler;
+
+      element.addEventListener('touchstart', this, false);
+      element.addEventListener('click', this, false);
+    };
+    FastButton.prototype.handleEvent = function(event) {
+      switch (event.type) {
+        case 'touchstart': this.onTouchStart(event); break;
+        case 'touchmove': this.onTouchMove(event); break;
+        case 'touchend': this.onClick(event); break;
+        case 'click': this.onClick(event); break;
+      }
+    };
+    FastButton.prototype.onTouchStart = function(event) {
+      event.stopPropagation();
+
+      this.element.addEventListener('touchend', this, false);
+      document.body.addEventListener('touchmove', this, false);
+
+      this.startX = event.touches[0].clientX;
+      this.startY = event.touches[0].clientY;
+    };
+    FastButton.prototype.onTouchMove = function(event) {
+      if (Math.abs(event.touches[0].clientX - this.startX) > 10 ||
+          Math.abs(event.touches[0].clientY - this.startY) > 10) {
+        this.reset();
+      }
+    };
+
+    FastButton.prototype.onClick = function(event) {
+      event.stopPropagation();
+      this.reset();
+      this.handler(event);
+
+      if (event.type == 'touchend') {
+        clickbuster.preventGhostClick(this.startX, this.startY);
+      }
+    };
+
+    FastButton.prototype.reset = function() {
+      this.element.removeEventListener('touchend', this, false);
+      document.body.removeEventListener('touchmove', this, false);
+    };
+    clickbuster = function(){}
+    clickbuster.preventGhostClick = function(x, y) {
+      clickbuster.coordinates.push(x, y);
+      window.setTimeout(clickbuster.pop, 2500);
+    };
+
+    clickbuster.pop = function() {
+      clickbuster.coordinates.splice(0, 2);
+    };
+    clickbuster.onClick = function(event) {
+      for (var i = 0; i < clickbuster.coordinates.length; i += 2) {
+        var x = clickbuster.coordinates[i];
+        var y = clickbuster.coordinates[i + 1];
+        if (Math.abs(event.clientX - x) < 25 && Math.abs(event.clientY - y) < 25) {
+          event.stopPropagation();
+          event.preventDefault();
+        }
+      }
+    };
+
+/* 
+    this is supposed to prevent default clicks. 
+*/
+  document.addEventListener('click', clickbuster.onClick, true);
+  clickbuster.coordinates = [];
+
+  $(document).bind('touchmove', false);
+
+/* 
+    this activated the image backdrop resizing routine. 
 */
 
+  jQuery.event.add(window, "orientationchange", updateOrientation);
+  jQuery.event.add(window, "load", updateOrientation);
+  jQuery.event.add(window, "resize", updateOrientation);
 
-FastButton = function(element, handler) {
-  this.element = element;
-  this.handler = handler;
-
-  element.addEventListener('touchstart', this, false);
-  element.addEventListener('click', this, false);
-};
-FastButton.prototype.handleEvent = function(event) {
-  switch (event.type) {
-    case 'touchstart': this.onTouchStart(event); break;
-    case 'touchmove': this.onTouchMove(event); break;
-    case 'touchend': this.onClick(event); break;
-    case 'click': this.onClick(event); break;
-  }
-};
-FastButton.prototype.onTouchStart = function(event) {
-  event.stopPropagation();
-
-  this.element.addEventListener('touchend', this, false);
-  document.body.addEventListener('touchmove', this, false);
-
-  this.startX = event.touches[0].clientX;
-  this.startY = event.touches[0].clientY;
-};
-FastButton.prototype.onTouchMove = function(event) {
-  if (Math.abs(event.touches[0].clientX - this.startX) > 10 ||
-      Math.abs(event.touches[0].clientY - this.startY) > 10) {
-    this.reset();
-  }
-};
-
-FastButton.prototype.onClick = function(event) {
-  event.stopPropagation();
-  this.reset();
-  this.handler(event);
-
-  if (event.type == 'touchend') {
-    clickbuster.preventGhostClick(this.startX, this.startY);
-  }
-};
-
-FastButton.prototype.reset = function() {
-  this.element.removeEventListener('touchend', this, false);
-  document.body.removeEventListener('touchmove', this, false);
-};
-clickbuster = function(){}
-clickbuster.preventGhostClick = function(x, y) {
-  clickbuster.coordinates.push(x, y);
-  window.setTimeout(clickbuster.pop, 2500);
-};
-
-clickbuster.pop = function() {
-  clickbuster.coordinates.splice(0, 2);
-};
-clickbuster.onClick = function(event) {
-  for (var i = 0; i < clickbuster.coordinates.length; i += 2) {
-    var x = clickbuster.coordinates[i];
-    var y = clickbuster.coordinates[i + 1];
-    if (Math.abs(event.clientX - x) < 25 && Math.abs(event.clientY - y) < 25) {
-      event.stopPropagation();
-      event.preventDefault();
-    }
-  }
-};
-
-document.addEventListener('click', clickbuster.onClick, true);
-clickbuster.coordinates = [];
-
-$(document).bind('touchmove', false);
-
-	var contentSet = true;	
-jQuery.event.add(window, "orientationchange", updateOrientation);
-jQuery.event.add(window, "load", updateOrientation);
-jQuery.event.add(window, "resize", updateOrientation);
-
-// page swapping mumbo jumbo
+/* 
+    this is the main system for activating the document. 
+*/
 $(document).ready(function(){ 
 
-    "use strict";	
 	var contentSet = true;	
 				  
 				  
 	// shortcuts for accessing elements in jquery
-	window.main = $("body");					//used to find browser width
+	window.main = $("body");					
 	window.fullpage = $(".fullPage");			
 	window.contentWrapper = $('.content-wrapper');
 	window.filler = $(".filler");
@@ -126,7 +141,7 @@ $(document).ready(function(){
 		applicationCache.addEventListener('progress', progressEvent, false);
 		applicationCache.addEventListener('updateready', updateReadyEvent, false);
 		applicationCache.addEventListener('cached', cachedEvent, false);
-		/*
+		/* unused variables 
 		window.applicationCache.onerror = appCacheError;
 		window.applicationCache.onchecking = checkingEvent;
 		window.applicationCache.onnoupdate = noUpdateEvent;
@@ -143,10 +158,10 @@ $(document).ready(function(){
     //defaults for browser types
 	var webKit = false,
 		mobile = false,
-        swipeBusy = false;  
+    swipeBusy = false;  
     
     //variables used for counting pages
-    var newPage = 0,
+  var newPage = 0,
 		currentPage = 1, // the first page (cover)
 		doOnce = 0,
 		doTouch = false;
@@ -170,7 +185,7 @@ $(document).ready(function(){
 
     // set up the scroll/slide/pull-down for each page
     jPageMove();
-	$('#wrapper_all').find('.article-wrapper').jScrollTouch(true,true,true);
+	$('#wrapper_all').find('.article-wrapper').jTouchMove(true,true,true);
 	$('#string').jPullDown();
 	
 	$('.active').toggleClass('active');
@@ -251,11 +266,15 @@ function displayOfflineError() {/*
 }
 
 
-/*****************************************
-***
-***  Build the table of contents
-***
-******************************************/
+/*
+*
+*  Build the table of contents
+*
+*   This uses the descriptor <t> and <p> 
+*   to build contents buttons for pulldown
+*   menu and contents page
+*
+*/
 
 function buildContents(){
    
@@ -280,7 +299,7 @@ function buildContents(){
 		
 		contentSet = false;// flag to indicate the contents are set
 		
-		pdContents.jScrollTouch(false,true,true); // enable scrolling on pulldown contents.
+		pdContents.jTouchMove(false,true,true); // enable scrolling on pulldown contents.
 }
 
 //   ***************************************** 
