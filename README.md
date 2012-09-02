@@ -26,3 +26,15 @@ An html page which has the core articles used in the publication. Images referen
 An adaptive images file for resizing images based on device sizes, as well as a cache manifest file for storing information that can be read offline when there is no internet access.
 
 This collection uses the html5 boilerplate with some modifications for use.
+
+A Typical Article
+=================
+
+
+RESIZER
+=======
+Resizer is a plugin which reformats the image used as a backdrop for a page of the publication. Portrait images on a landscape page will be full width. Landscape images on a portrait page will be full height. Images can also be 'locked' to a side so they can extend from one pageto another. 
+Images are centered vertically on the page by default, but adding the class "bottomImage" will lock the bottom of the image to the base of the page, and "topImage" will keep the top of the image at the top of the page. 
+Images are centered horizontally on the page by default. Adding the "leftImage" class means the right hand side of the image will be locked to the right hand side of the mage. Adding "rightImage" means the left hand side will be locked in place. Their naming implies you will have a seamless image between two pages, but that is not required.
+
+
