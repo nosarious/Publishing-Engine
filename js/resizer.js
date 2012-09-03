@@ -99,7 +99,24 @@ function updateOrientation(){ //actions to take when orientation is changed.
         setTimeout(function () { fullScroll.refresh() }, 0);
         fullScroll.scrollToElement('.active',100);
         }
-	
+
+    // resize article-scroll width and remove firefox scrollers
+    $('.content-wrapper').each(function(){
+        cwidth = cwidth*0.8;
+        if ( cwidth > 960 ){cwidth = 960;}// console.log(cwidth)} else {console.log("nope")}
+        $(this).css({'width':cwidth})
+        var scroller = $(this).find('.article-scroller');
+        var scrollCheck = $(scroller).find('.scroller-content');
+        var totalWidth = scrollCheck.width()+parseInt(scrollCheck.css('left'))*2;
+        var widthCheck = $(this).width();
+                /* this check is to see if firefox has added scrollers to the main content */
+
+        if (( widthCheck - totalWidth)> 0){
+          $(this).css({'width': widthCheck+15});
+          $(scroller).css({'width': widthCheck+15});
+        }
+    })
+
 		//$('.active').toggleClass('active');
 	$('#article'+(currentPage)).addClass('active').removeClass('hidder');
 	$('.article-wrapper').not($('#article'+(currentPage))).addClass('hidder');
