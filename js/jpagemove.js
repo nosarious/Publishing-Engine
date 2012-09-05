@@ -126,7 +126,8 @@ function jPageMove(){
 		function animateSlide(currentSlide,direction){
 				//moveto chosen page in the direction
 		    d = (direction) ? { left:'-100%' } : { left:'100%' };
-		    if(!Modernizr.csstransitions) {
+		    //if no csstransitions or if firefox, don't use csstransitions
+		    if(!Modernizr.csstransitions||(vP='-moz-')) {
 				currentSlide.animate(d, animTime*0.5, 'easeOutQuint',function(){
 					currentSlide
 						.removeClass('remove')
